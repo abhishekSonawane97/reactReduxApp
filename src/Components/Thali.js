@@ -1,4 +1,4 @@
-import React  from 'react'
+import React,{useState, useEffect}  from 'react'
 import Custommenu from './Custommenu'
 import Footer from './Footer'
 import Navbar from './Navbar'
@@ -15,11 +15,56 @@ const Thali = () => {
     navigate("/chekout")
 
   }
-  // const [state, setState] = useState({});
+  const [list, setList] = useState([]);
 
   const item = useSelector((state) => state.customThali);
   
   // const dispatch = useDispatch();
+  const lastData=()=>{
+    var ele=item.items;
+    var ids=[];
+    var obj={};
+    for(var i=0;i<ele.length;i++)
+    {
+      var x=ele[i].id;
+      ids.push(x);
+    }
+    for(var j=0;j<ids.length;j++)
+    {
+      if(obj[ids[j]]==undefined)
+      {
+        obj[ids[j]]=1;
+      }
+      else{
+        obj[ids[j]]++;
+      }
+    }
+    
+    var idsArr=Object.keys(obj)
+    var numArr=Object.values(obj)
+    // console.log(idsArr)
+    var singleEle=[];
+    for(var k=0;k<idsArr.length;k++)
+    {
+      for(var t=0;t<ele.length;t++)
+      {
+        if(idsArr[k]===ele[t].id)
+        {
+         
+          singleEle.push(ele[t]);
+          break;
+        }
+      }
+    }
+    console.log(list)
+    setList(singleEle);
+  
+  }
+
+  useEffect(()=>{
+    lastData();
+  },[item.items.length])
+
 
   
   return (
@@ -93,6 +138,8 @@ const Thali = () => {
 </div>
   </div>
 </div>
+
+
 
 
 
